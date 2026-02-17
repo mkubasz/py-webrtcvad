@@ -1,11 +1,16 @@
-import pkg_resources
+try:
+    # Python 3.8+
+    from importlib.metadata import version
+except Exception:  # pragma: no cover
+    # Backport for Python < 3.8
+    from importlib_metadata import version
 
 import _webrtcvad
 
 __author__ = "John Wiseman jjwiseman@gmail.com"
 __copyright__ = "Copyright (C) 2016 John Wiseman"
 __license__ = "MIT"
-__version__ = pkg_resources.get_distribution('webrtcvad').version
+__version__ = version("webrtcvad")
 
 
 class Vad(object):
@@ -21,7 +26,7 @@ class Vad(object):
     def is_speech(self, buf, sample_rate, length=None):
         length = length or int(len(buf) / 2)
         if length * 2 > len(buf):
-            raise IndexError(
+            raise IndexError(pkg_resources
                 'buffer has %s frames, but length argument was %s' % (
                     int(len(buf) / 2.0), length))
         return _webrtcvad.process(self._vad, sample_rate, buf, length)
