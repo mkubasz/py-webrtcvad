@@ -26,7 +26,7 @@ class Vad(object):
     def is_speech(self, buf, sample_rate, length=None):
         length = length or int(len(buf) / 2)
         if length * 2 > len(buf):
-            raise IndexError(pkg_resources
+            raise IndexError(
                 'buffer has %s frames, but length argument was %s' % (
                     int(len(buf) / 2.0), length))
         return _webrtcvad.process(self._vad, sample_rate, buf, length)
